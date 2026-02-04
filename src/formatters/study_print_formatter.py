@@ -491,7 +491,3 @@ sup {
         # Verify file was created
         if not output_file.exists():
             raise OSError(f"Failed to create PDF at {output_path}")
-        
-        # Optional: Print confirmation
-        file_size = output_file.stat().st_size
-        return None
