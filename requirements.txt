@@ -2,6 +2,12 @@
 requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
+
+# Note: Playwright is available via MCP tools (playwright-browser_*)
+# No need to install playwright package when using MCP environment
+# For standalone usage: playwright>=1.40.0
+
+# Legacy Selenium support (being phased out in favor of Playwright)
 selenium>=4.15.0
 
 # HTTP client
@@ -12,6 +18,10 @@ html5lib>=1.1
 
 # Data handling
 pandas>=2.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
 
 # Utilities
 python-dotenv>=1.0.0

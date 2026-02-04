@@ -14,27 +14,37 @@ This project provides tools and documentation to:
 
 ```
 Nwt_Study_Edition_Printable/
-├── docs/                      # Documentation
-│   ├── WEBPAGE_STRUCTURE.md   # Analysis of JW.org webpage structure
-│   └── API_DOCUMENTATION.md   # Data models and API patterns
-├── src/                       # Source code
-│   ├── scrapers/              # Web scraping modules
-│   │   └── bible_scraper.py   # Main scraper for JW.org content
-│   ├── parsers/               # HTML parsing utilities
-│   │   └── html_parser.py     # Parse and extract structured data
-│   └── utils/                 # Utility functions
-│       └── storage.py         # Data storage utilities
-├── examples/                  # Example scripts
-│   └── analyze_structure.py   # Script to analyze webpage structure
-├── requirements.txt           # Python dependencies
-└── README.md                  # This file
+├── docs/                           # Documentation
+│   ├── WEBPAGE_STRUCTURE.md        # Analysis of JW.org webpage structure
+│   ├── API_DOCUMENTATION.md        # Data models and API patterns
+│   ├── PLAYWRIGHT_USAGE.md         # Playwright MCP usage guide
+│   └── GETTING_STARTED.md          # Step-by-step setup guide
+├── src/                            # Source code
+│   ├── scrapers/                   # Web scraping modules
+│   │   ├── playwright_scraper.py   # Playwright-based scraper (recommended)
+│   │   └── bible_scraper.py        # Legacy Selenium scraper
+│   ├── parsers/                    # HTML parsing utilities
+│   │   └── html_parser.py          # Parse and extract structured data
+│   ├── utils/                      # Utility functions
+│   │   └── storage.py              # Data storage utilities
+│   └── config.py                   # Configuration and selectors
+├── tests/                          # Test suite
+│   ├── __init__.py
+│   └── test_playwright_scraper.py  # Playwright scraper tests
+├── examples/                       # Example scripts
+│   ├── playwright_mcp_guide.py     # Playwright MCP usage examples
+│   └── analyze_structure.py        # Webpage structure analysis
+├── requirements.txt                # Python dependencies
+└── README.md                       # This file
 ```
 
 ## Features
 
 ### Web Scraping
-- **Browser Automation**: Uses Selenium to handle JavaScript-rendered content
+- **Playwright MCP Integration**: Modern browser automation via Model Context Protocol
+- **Legacy Selenium Support**: Fallback option for traditional automation
 - **Dynamic Content**: Captures study notes and cross-references loaded via AJAX
+- **Smart Waiting**: Built-in waiting mechanisms for JavaScript content
 - **Rate Limiting**: Implements respectful delays between requests
 - **Error Handling**: Robust error handling for network and parsing issues
 
@@ -54,8 +64,8 @@ Nwt_Study_Edition_Printable/
 
 ### Prerequisites
 - Python 3.8 or higher
-- Chrome browser (for Selenium WebDriver)
-- ChromeDriver (will be installed automatically)
+- **For MCP Environment**: Playwright available via MCP tools (recommended)
+- **For Standalone**: Chrome browser (for Selenium fallback)
 
 ### Setup
 
@@ -78,6 +88,17 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Using Playwright MCP (Recommended)
+
+The recommended approach is to use Playwright via MCP tools:
+
+```bash
+# View Playwright usage examples
+python examples/playwright_mcp_guide.py
+```
+
+See [docs/PLAYWRIGHT_USAGE.md](docs/PLAYWRIGHT_USAGE.md) for comprehensive guide.
+
 ### Analyzing the Webpage Structure
 
 Before scraping, analyze the webpage structure to understand the HTML elements:
@@ -91,7 +112,7 @@ This will:
 - Identify HTML elements and classes
 - Save a sample of the page source for manual review
 
-### Scraping Bible Content
+### Scraping Bible Content (Legacy Selenium)
 
 #### Get List of Books
 ```python
@@ -138,6 +159,19 @@ print(f"Study Notes: {len(data['study_notes'])}")
 ```
 
 ## Documentation
+
+### Playwright Usage Guide (Start Here!)
+See [docs/PLAYWRIGHT_USAGE.md](docs/PLAYWRIGHT_USAGE.md) for:
+- Complete guide to Playwright MCP tools
+- Step-by-step scraping workflows
+- Code examples and best practices
+- Troubleshooting common issues
+
+### Getting Started
+See [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md) for:
+- Detailed setup instructions
+- Environment configuration
+- Testing and validation steps
 
 ### Webpage Structure
 See [docs/WEBPAGE_STRUCTURE.md](docs/WEBPAGE_STRUCTURE.md) for detailed analysis of:
@@ -193,21 +227,25 @@ Contributions are welcome! Please:
 4. Submit a pull request
 
 ### TODO
-- [ ] Verify HTML selectors with actual webpage
+- [x] Create Playwright-based scraper
+- [x] Add comprehensive testing infrastructure
+- [x] Document Playwright MCP usage
+- [ ] Verify HTML selectors with actual webpage (site blocks automation)
 - [ ] Implement retry logic for failed requests
 - [ ] Add progress tracking for bulk scraping
 - [ ] Create database schema implementation
 - [ ] Add export to different formats (PDF, EPUB)
 - [ ] Implement caching layer
-- [ ] Add unit tests
 
 ## Technical Stack
 
 - **Python 3.8+**: Core language
-- **Selenium**: Browser automation for JavaScript content
+- **Playwright (via MCP)**: Modern browser automation (recommended)
+- **Selenium**: Legacy browser automation fallback
 - **BeautifulSoup4**: HTML parsing
 - **lxml**: Fast XML/HTML processing
 - **Requests**: HTTP library (for static content)
+- **pytest**: Testing framework
 
 ## License
 
