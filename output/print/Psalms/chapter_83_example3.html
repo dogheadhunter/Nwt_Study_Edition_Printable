@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psalms 83 - Cross-Reference Example (blockquote)</title>
+    <style>
+
+/* Page setup for A4 printing */
+@page {
+    size: A4;
+    margin: 20mm 15mm;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Page header */
+.page-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
+}
+
+.page-header h1 {
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+/* Two-column grid layout: 60% verses, 40% study materials */
+.content-grid {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 10mm;
+    min-height: 200mm;
+}
+
+/* Left column: Verses */
+.verses-column {
+    padding-right: 5mm;
+}
+
+/* Right column: Study materials */
+.study-column {
+    padding-left: 5mm;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-left: 1px solid #ccc;
+}
+
+/* Verse formatting */
+.verse {
+    margin-bottom: 0.5em;
+    page-break-inside: avoid;
+}
+
+.verse-num {
+    font-weight: bold;
+    margin-right: 0.3em;
+}
+
+.superscription {
+    font-style: italic;
+    margin-bottom: 1em;
+    color: #555;
+}
+
+/* Superscript markers for cross-refs and footnotes */
+sup {
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+/* Study materials formatting */
+.verse-heading {
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #222;
+}
+
+.verse-heading:first-child {
+    margin-top: 0;
+}
+
+.study-item {
+    margin-bottom: 1em;
+    padding-left: 1em;
+}
+
+.footnote-marker,
+.crossref-marker {
+    font-weight: bold;
+    margin-right: 0.3em;
+}
+
+.study-note-content,
+.footnote-content,
+.crossref-content {
+    color: #444;
+}
+
+.crossref-citation {
+    font-weight: bold;
+    color: #000;
+}
+
+.crossref-verse {
+    margin-left: 1em;
+    color: #555;
+}
+
+/* Page footer */
+.page-footer {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    font-size: 9pt;
+    color: #666;
+}
+
+/* Print-specific rules */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .page-header,
+    .page-footer {
+        position: fixed;
+    }
+    
+    .page-header {
+        top: 0;
+    }
+    
+    .page-footer {
+        bottom: 0;
+    }
+    
+    /* Ensure columns don't break awkwardly */
+    .verse,
+    .study-item {
+        page-break-inside: avoid;
+    }
+}
+
+
+/* Cross-Reference Variation Styles */
+
+/* Variation A: Separate Paragraphs */
+.crossref-separate .crossref-paragraph {
+    margin-bottom: 1em;
+    padding-bottom: 0.8em;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.crossref-separate .crossref-paragraph:last-child {
+    border-bottom: none;
+}
+
+.crossref-citation-header {
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 0.3em;
+    font-size: 0.95em;
+}
+
+.crossref-verse-text {
+    color: #444;
+    line-height: 1.5;
+    padding-left: 0.5em;
+}
+
+/* Variation B: Inline with Markers */
+.crossref-inline p {
+    line-height: 1.7;
+    color: #444;
+}
+
+.crossref-inline strong {
+    color: #000;
+    font-weight: 600;
+}
+
+/* Variation C: Indented Block Quote */
+.crossref-blockquote {
+    margin-left: 0;
+}
+
+.crossref-block {
+    margin: 0.8em 0;
+    padding-left: 15px;
+    border-left: 3px solid #999;
+    background-color: #f9f9f9;
+}
+
+.crossref-block cite {
+    display: block;
+    font-weight: bold;
+    font-style: normal;
+    color: #000;
+    margin-bottom: 0.4em;
+    font-size: 0.9em;
+}
+
+.crossref-block p {
+    margin: 0;
+    color: #444;
+    line-height: 1.5;
+}
+
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <h1>Psalms 83</h1>
+        <p style="font-size: 0.9em; color: #666; font-style: italic;">
+            Cross-Reference Style: Blockquote
+        </p>
+    </header>
+    
+    <div class="content-grid">
+        <div class="verses-column">
+            <p class="superscription">A song. A melody of Asaph.</p>
+            <p class="verse"><span class="verse-num">1</span>O God, do not be silent; Do not keep quiet or still, O Divine One.</p>
+            <p class="verse"><span class="verse-num">2</span>For look! your enemies are in an uproar; Those who hate you act arrogantly.</p>
+            <p class="verse"><span class="verse-num">3</span>With cunning they secretly plot against your people; They conspire against your treasured ones.</p>
+            <p class="verse"><span class="verse-num">4</span>They say: 'Come, let us annihilate them as a nation, So that the name of Israel may be remembered no more.'</p>
+            <p class="verse"><span class="verse-num">5</span>They devise a unified strategy; They have made an alliance against you—</p>
+            <p class="verse"><span class="verse-num">6</span>The tents of Edom and the Ishmaelites, Moab and the Hagrites,</p>
+            <p class="verse"><span class="verse-num">7</span>Gebal and Ammon and Amalek, Philistia together with the inhabitants of Tyre.</p>
+            <p class="verse"><span class="verse-num">8</span>Assyria too has joined them; They give support to the sons of Lot. (Selah)</p>
+            <p class="verse"><span class="verse-num">9</span>Do to them as you did to Midian, As you did to Sisera and Jabin at the stream of Kishon.</p>
+            <p class="verse"><span class="verse-num">10</span>They were annihilated at En-dor; They became manure for the ground.</p>
+            <p class="verse"><span class="verse-num">11</span>Make their nobles like Oreb and Zeeb And all their princes like Zebah and Zalmunna.</p>
+            <p class="verse"><span class="verse-num">12</span>For they said: 'Let us take possession of the pastures of God for ourselves.'</p>
+            <p class="verse"><span class="verse-num">13</span>O my God, make them like a whirling thistle, Like stubble blown about by the wind.</p>
+            <p class="verse"><span class="verse-num">14</span>Like a fire that burns up the forest, Like a flame that scorches the mountains,</p>
+            <p class="verse"><span class="verse-num">15</span>So may you pursue them with your tempest And terrify them with your windstorm.</p>
+            <p class="verse"><span class="verse-num">16</span>Cover their faces with dishonor, So that they may search for your name, O Jehovah.</p>
+            <p class="verse"><span class="verse-num">17</span>May they be put to shame and be terrified forever; May they be disgraced and perish;</p>
+            <p class="verse"><span class="verse-num">18</span>May people know that you, whose name is Jehovah, You alone are the Most High over all the earth.</p>
+        </div>
+        
+        <div class="study-column">
+            <div class="verse-heading">Psalms 83:3</div>
+            <div class="study-item"><span class="study-note-content">your treasured ones: Or 'those you carefully guard; those you keep hidden.' This Hebrew term refers to things or people that are precious and carefully protected.</span></div>
+            <div class="verse-heading">Psalms 83:6</div>
+            <div class="study-item crossref-blockquote">
+                <blockquote class="crossref-block"><cite>Genesis 19:36-38</cite><p>So both daughters of Lot became pregnant by their father. The firstborn gave birth to a son and named him Moab. He is the father of the Moabites of today. The younger also gave birth to a son and named him Ben-ammi. He is the father of the Ammonites of today.</p></blockquote>
+                <blockquote class="crossref-block"><cite>Genesis 25:12-18</cite><p>This is the history of Ishmael... They settled from Havilah near Shur, which is east of Egypt, in the direction of Assyria.</p></blockquote>
+                <blockquote class="crossref-block"><cite>Judges 3:3</cite><p>The five lords of the Philistines, all the Canaanites, the Sidonians, and the Hivites dwelling on Mount Lebanon.</p></blockquote>
+            </div>
+            <div class="verse-heading">Psalms 83:8</div>
+            <div class="study-item"><span class="footnote-marker">*</span><span class="footnote-content">Selah: A technical term of uncertain meaning, possibly indicating a pause for silent meditation or a musical interlude.</span></div>
+            <div class="study-item"><span class="study-note-content">the sons of Lot: Refers to Moab and Ammon, the nations that descended from Lot's two sons born to him by his daughters.</span></div>
+            <div class="verse-heading">Psalms 83:9</div>
+            <div class="study-item crossref-blockquote">
+                <blockquote class="crossref-block"><cite>Judges 4:15-24</cite><p>And Jehovah threw Sisera and all his war chariots and all his army into confusion before the sword of Barak... So on that day God subdued King Jabin of Canaan before the Israelites.</p></blockquote>
+                <blockquote class="crossref-block"><cite>Judges 7:25</cite><p>They captured the two princes of Midian, Oreb and Zeeb, and they killed Oreb at the rock of Oreb, and Zeeb they killed at the winepress of Zeeb.</p></blockquote>
+                <blockquote class="crossref-block"><cite>Judges 8:21</cite><p>At that Zebah and Zalmunna said: 'Get up and strike us down yourself, for as a man is, so is his might.' So Gideon got up and killed Zebah and Zalmunna.</p></blockquote>
+            </div>
+            <div class="verse-heading">Psalms 83:16</div>
+            <div class="study-item"><span class="study-note-content">Jehovah: This is one of the places where God's personal name appears in the book of Psalms. The divine name appears in the superscription or body of 74 of the 150 psalms.</span></div>
+            <div class="verse-heading">Psalms 83:18</div>
+            <div class="study-item crossref-blockquote">
+                <blockquote class="crossref-block"><cite>Exodus 6:3</cite><p>I used to appear to Abraham, Isaac, and Jacob as God Almighty, but with regard to my name Jehovah I did not make myself known to them.</p></blockquote>
+                <blockquote class="crossref-block"><cite>Isaiah 42:8</cite><p>I am Jehovah. That is my name; I give my glory to no one else, nor my praise to graven images.</p></blockquote>
+                <blockquote class="crossref-block"><cite>Psalm 91:14</cite><p>Because he has set his affection on me, I will rescue him. I will protect him because he knows my name.</p></blockquote>
+            </div>
+            <div class="study-item"><span class="study-note-content">whose name is Jehovah: This verse explicitly identifies the Most High God by his personal name. The divine name, represented by four Hebrew consonants (YHWH), occurs over 6,800 times in the Hebrew Scriptures.</span></div>
+        </div>
+    </div>
+    
+    <footer class="page-footer">
+        <p>Psalms 83 - New World Translation Study Edition (Example: blockquote)</p>
+    </footer>
+</body>
+</html>
