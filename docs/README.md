@@ -56,6 +56,34 @@ Welcome to the NWT Study Edition Bible Scraper documentation!
 
 **Best for:** Data modeling, storage design, API integration
 
+### Project Reports
+
+#### [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)
+**Complete project summary and implementation status**
+- Overview of project architecture
+- List of implemented features
+- Testing status and results
+- Technical stack details
+
+#### [INTEGRATION_TEST_SUMMARY.md](INTEGRATION_TEST_SUMMARY.md)
+**Psalms 83 integration testing summary**
+- Test execution results
+- Data extraction verification
+- Cross-reference verse text extraction
+- Sidebar structure analysis
+
+#### [LIVE_SCRAPING_RESULTS.md](LIVE_SCRAPING_RESULTS.md)
+**Live scraping session results**
+- Verified CSS selectors
+- HTML structure findings
+- Workflow documentation
+
+#### [SIDEBAR_ANALYSIS.md](SIDEBAR_ANALYSIS.md)
+**Study materials sidebar structure**
+- Cross-reference HTML layout
+- JavaScript population mechanism
+- Testing requirements
+
 ## Examples
 
 ### Code Examples
@@ -81,6 +109,11 @@ Complete integration examples showing:
 - Batch processing
 
 Run with: `python examples/integration_example.py`
+
+#### [demo_live_cross_refs.py](../examples/demo_live_cross_refs.py)
+Demonstration of cross-reference verse text extraction.
+
+Run with: `python examples/demo_live_cross_refs.py`
 
 #### [analyze_structure.py](../examples/analyze_structure.py)
 Webpage structure analysis tool (legacy Selenium).

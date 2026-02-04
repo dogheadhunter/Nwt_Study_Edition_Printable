@@ -2,10 +2,14 @@
 Quick test script to parse the live Psalms 83 HTML extracted via Playwright.
 """
 import sys
-sys.path.insert(0, 'src')
+from pathlib import Path
 
-from scrapers.psalms_scraper import Psalms83Scraper
-from utils.validators import validate_chapter_completeness, validate_psalms_83_specific
+# Add project root to path for imports
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
+from src.scrapers.psalms_scraper import Psalms83Scraper
+from src.utils.validators import validate_chapter_completeness, validate_psalms_83_specific
 import json
 
 # Read the HTML from the live extraction
