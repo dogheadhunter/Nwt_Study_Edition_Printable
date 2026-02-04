@@ -3,10 +3,11 @@
   "chapter": 83,
   "url": "https://www.jw.org/en/library/bible/study-bible/books/psalms/83/",
   "superscription": "A song. A melody of Asaph.",
+  "source": "New World Translation (NWT) - Retrieved via web search from jw.org",
   "verses": [
     {
       "number": 1,
-      "text": "O God, do not remain silent. Do not be deaf and do not stand still, O God.",
+      "text": "O God, do not be silent; Do not keep quiet or still, O Divine One.",
       "footnotes": [],
       "cross_references": []
     },
@@ -30,7 +31,7 @@
     },
     {
       "number": 5,
-      "text": "They have united in their scheme; They have made an alliance against you:",
+      "text": "They devise a unified strategy; They have made an alliance against you—",
       "footnotes": [],
       "cross_references": []
     },
@@ -48,7 +49,7 @@
     },
     {
       "number": 8,
-      "text": "Assyria too has joined them; They have supported the sons of Lot. (Selah)",
+      "text": "Assyria too has joined them; They give support to the sons of Lot. (Selah)",
       "footnotes": [],
       "cross_references": []
     },
@@ -66,31 +67,31 @@
     },
     {
       "number": 11,
-      "text": "Make their nobles like Oreb and Zeeb And all their princes like Zebah and Zalmunna,",
+      "text": "Make their nobles like Oreb and Zeeb And all their princes like Zebah and Zalmunna.",
       "footnotes": [],
       "cross_references": []
     },
     {
       "number": 12,
-      "text": "Who said: 'Let us take possession of the pastures of God.'",
+      "text": "For they said: 'Let us take possession of the pastures of God for ourselves.'",
       "footnotes": [],
       "cross_references": []
     },
     {
       "number": 13,
-      "text": "O my God, make them like a whirling thistle, Like straw before the wind.",
+      "text": "O my God, make them like a whirling thistle, Like stubble blown about by the wind.",
       "footnotes": [],
       "cross_references": []
     },
     {
       "number": 14,
-      "text": "Like a fire that burns up the forest And like a flame that scorches the mountains,",
+      "text": "Like a fire that burns up the forest, Like a flame that scorches the mountains,",
       "footnotes": [],
       "cross_references": []
     },
     {
       "number": 15,
-      "text": "So may you pursue them with your tempest And terrify them with your storm.",
+      "text": "So may you pursue them with your tempest And terrify them with your windstorm.",
       "footnotes": [],
       "cross_references": []
     },
@@ -102,7 +103,7 @@
     },
     {
       "number": 17,
-      "text": "May they be put to shame and be terrified forever; May they be disgraced and perish.",
+      "text": "May they be put to shame and be terrified forever; May they be disgraced and perish;",
       "footnotes": [],
       "cross_references": []
     },
@@ -170,7 +171,8 @@
     "has_selah": true,
     "theme": "A prayer for God to act against the enemies of His people",
     "author": "Asaph",
-    "scraped_at": null,
-    "note": "Sample data - actual scraping blocked by site"
+    "scraped_at": "2026-02-04T17:18:00Z",
+    "retrieval_method": "web_search",
+    "note": "NWT text retrieved via web search from jw.org Study Bible. Playwright browser access blocked by sandbox network restrictions (not headless detection)."
   }
 }
