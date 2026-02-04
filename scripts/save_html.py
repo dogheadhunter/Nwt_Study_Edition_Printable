@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """
 Save HTML from Playwright browser.
+
+This script saves HTML content extracted from a Playwright browser session
+to the data/samples directory. Run from any directory within the project.
 """
 # This will be run after getting HTML via playwright_browser_evaluate
 import sys
 from pathlib import Path
 
-# Get the project root directory (scripts folder is one level down from root)
+# Get the project root directory
+# __file__ is the path to this script (scripts/save_html.py)
+# .parent gets the scripts/ folder, .parent.parent gets the project root
 project_root = Path(__file__).parent.parent
 
 # The HTML will be passed as a command line argument
