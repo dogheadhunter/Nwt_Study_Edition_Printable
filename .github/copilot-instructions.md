@@ -10,8 +10,6 @@ This is a Python web scraping project designed to extract content from the JW.or
 - Storing structured data in JSON and CSV formats
 - Providing a beginner-friendly codebase with comprehensive documentation
 
-**Important**: This is an educational project demonstrating web scraping techniques. All content is copyrighted by the Watchtower Bible and Tract Society.
-
 ## Tech Stack
 
 - **Python**: 3.8+ (primary language)
@@ -360,16 +358,6 @@ cross_ref = SELECTORS['cross_reference']     # 'div.crossReference'
 8. **Never skip docstrings** - All public functions need documentation
 9. **Never use generic exception handlers** - Catch specific exceptions
 10. **Never commit test data to git** - Use fixtures and mock data
-
-## Legal and Ethical Reminders
-
-⚠️ **IMPORTANT**: 
-- All Bible content is copyrighted by the Watchtower Bible and Tract Society
-- This project is for educational purposes only
-- Always implement rate limiting (minimum 3 seconds between requests)
-- Never use scraped content for commercial purposes
-- Respect JW.org's Terms of Service
-- Consider reaching out to JW.org for official API access
 
 ## When in Doubt
 

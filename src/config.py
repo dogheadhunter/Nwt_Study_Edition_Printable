@@ -28,29 +28,50 @@ SCRAPING_CONFIG = {
     'validate_data': True,      # Validate scraped data
 }
 
-# HTML Selectors (Update these based on actual webpage structure)
+# HTML Selectors (Updated from live scraping - Feb 4, 2026)
 SELECTORS = {
     # Books list page
     'book_link': 'a.bookLink',                    # Links to individual books
     'book_name': '.bookName',                     # Book name element
     'testament_section': '.testament',            # Testament section container
     
-    # Chapter page
-    'verse': 'p.verse',                          # Verse paragraphs
-    'verse_number': 'span.v',                    # Verse number
-    'verse_text': '.verseText',                  # Verse text
+    # Main content containers (LIVE-VERIFIED)
+    'main_content': 'div.bodyTxt',               # Main text container
+    'chapter_heading': 'h1.sectionHeading',      # Chapter heading
+    'article': 'article',                        # Main article element
     
-    # Study materials
+    # Chapter page - Verses (LIVE-VERIFIED)
+    'verse_container': 'p.sb',                   # Verse paragraph (class="sb")
+    'verse_number': 'span.verseNum',             # Verse number span
+    'verse_section': 'div[id^="section"]',      # Section divs (section1, section2, etc.)
+    'verse': 'p.sb',                             # Legacy - same as verse_container
+    'verse_text': '.verseText',                  # Verse text (legacy)
+    
+    # Special content (LIVE-VERIFIED)
+    'superscription': 'div#tt4',                 # Psalms superscription (specific ID)
+    'superscription_generic': 'sup',             # Generic superscription
+    'emphasis': 'em',                            # Emphasis text (e.g., "Selah")
+    
+    # Study materials - Sidebar (LIVE-VERIFIED)
+    'tab_container': 'div.tabContainer',         # Tabbed sidebar container
     'study_note': 'div.studyNote',               # Study note container
+    'study_note_section': 'div.tabSubSection.studyNotes',  # Study notes section
     'study_note_content': '.noteContent',        # Study note text
     'study_note_reference': '.reference',        # Verse reference
     
+    # Footnotes (LIVE-VERIFIED)
+    'footnote_marker': 'a.fn',                   # Footnote marker link (asterisk)
+    'footnote_section': 'div.tabSubSection.footnotes',  # Footnotes section
     'footnote': 'div.footnote',                  # Footnote container
-    'footnote_marker': '.footnoteMarker',        # Footnote symbol
     'footnote_link': 'a.footnoteLink',           # Link to footnote
     
-    'cross_reference': 'div.crossReference',     # Cross-reference container
-    'cross_reference_marker': '.refMarker',      # Reference letter
+    # Cross-references (LIVE-VERIFIED)
+    'cross_ref_marker': 'a.study-note-ref',      # Cross-ref marker link (letters)
+    'cross_ref_section': 'div.tabSubSection.xRefs',  # Cross-refs section
+    'cross_reference': 'div.crossReference',     # Cross-reference container (legacy)
+    'cross_reference_marker': '.refMarker',      # Reference letter (legacy)
+    'xref_item': 'div.xRef',                     # Individual cross-ref item
+    'xref_citation': 'span.xRefCitation',        # Citation text
     'cross_reference_link': 'a.b',               # Cross-reference link
     
     # Media

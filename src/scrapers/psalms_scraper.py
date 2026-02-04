@@ -24,6 +24,12 @@ from typing import Dict, List, Optional, Any
 
 from bs4 import BeautifulSoup
 
+# Import selectors from config
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import SELECTORS, SCRAPING_CONFIG
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -170,17 +176,22 @@ class Psalms83Scraper:
     
     def _extract_superscription(self, soup: BeautifulSoup) -> Optional[str]:
         """Extract the psalm superscription if present."""
-        # Try common selectors for superscription
+        # Use live-verified selectors first
         selectors = [
-            '.superscription',
+            'div#tt4',            # Psalms-specific (LIVE-VERIFIED)
+            'sup',                # Generic superscription (LIVE-VERIFIED)
+            '.superscription',    # Fallback
             '.psalm-heading',
-            '.ss',  # Common abbreviation
+            '.ss',
             'p.superscription'
         ]
         
         for selector in selectors:
             elem = soup.select_one(selector)
             if elem:
+                # Remove footnote/xref markers to get clean text
+                for marker in elem.find_all('a', class_=['fn', 'study-note-ref']):
+                    marker.extract()
                 return elem.get_text(strip=True)
         
         return None
@@ -189,32 +200,58 @@ class Psalms83Scraper:
         """Extract all verses from the chapter."""
         verses = []
         
-        # Try multiple selectors for verse elements
+        # Use live-verified selectors first
         verse_selectors = [
-            'p.verse',
+            'p.sb',           # LIVE-VERIFIED: verse paragraphs
+            'p[data-pid]',    # Fallback: paragraphs with data-pid
+            'p.verse',        # Legacy fallback
             'span.verse',
-            '.v',
-            'p[data-pid]'  # Common pattern for verse paragraphs
+            '.v'
         ]
         
         verse_elements = []
         for selector in verse_selectors:
             verse_elements = soup.select(selector)
             if verse_elements:
+                logger.info(f"Found {len(verse_elements)} elements with selector: {selector}")
                 break
+        
+        # Group verse paragraphs by verse number
+        current_verse = None
+        verse_parts = []
         
         for elem in verse_elements:
             verse_data = self._parse_verse_element(elem)
             if verse_data:
-                verses.append(verse_data)
+                # If this element has a verse number, start a new verse
+                if verse_data.get('number') is not None:
+                    # Save previous verse if exists
+                    if current_verse:
+                        verses.append(current_verse)
+                    current_verse = verse_data
+                    verse_parts = [verse_data['text']]
+                # Otherwise, append text to current verse
+                elif current_verse and verse_data.get('text'):
+                    verse_parts.append(verse_data['text'])
+                    current_verse['text'] = ' '.join(verse_parts)
+                    # Merge markers
+                    current_verse['footnotes'].extend(verse_data.get('footnotes', []))
+                    current_verse['cross_references'].extend(verse_data.get('cross_references', []))
+        
+        # Add the last verse
+        if current_verse:
+            verses.append(current_verse)
         
         return verses
     
     def _parse_verse_element(self, elem) -> Optional[Dict[str, Any]]:
         """Parse a single verse element."""
         try:
-            # Extract verse number
-            verse_num_elem = elem.find(['span', 'sup'], class_=['v', 'verseNum'])
+            # Make a copy to avoid modifying original
+            elem_copy = elem.__copy__()
+            
+            # Extract verse number (LIVE-VERIFIED: span.verseNum)
+            verse_num_elem = elem_copy.find('span', class_='verseNum')
             verse_number = None
             if verse_num_elem:
                 verse_text = verse_num_elem.get_text(strip=True)
@@ -222,58 +259,72 @@ class Psalms83Scraper:
                 match = re.search(r'\d+', verse_text)
                 if match:
                     verse_number = int(match.group())
-            
-            # Extract verse text (excluding the verse number)
-            if verse_num_elem:
                 verse_num_elem.extract()  # Remove to get clean text
             
-            text = elem.get_text(strip=True)
+            # Extract footnote markers (LIVE-VERIFIED: a.fn)
+            footnote_markers = elem_copy.find_all('a', class_='fn')
+            footnotes = []
+            for marker in footnote_markers:
+                # Get the marker text (usually "*")
+                marker_text = marker.get_text(strip=True)
+                footnotes.append(marker_text)
+                marker.extract()  # Remove marker from text
             
-            # Extract footnote markers
-            footnote_markers = elem.find_all('a', class_=['fn', 'footnote', 'footnoteLink'])
-            footnotes = [marker.get('data-fnid', marker.get('href', '')) 
-                        for marker in footnote_markers]
+            # Extract cross-reference markers (LIVE-VERIFIED: a.study-note-ref)
+            xref_markers = elem_copy.find_all('a', class_='study-note-ref')
+            cross_refs = []
+            for marker in xref_markers:
+                # Get the reference letter (a, b, c, etc.)
+                ref_letter = marker.get_text(strip=True)
+                cross_refs.append(ref_letter)
+                marker.extract()  # Remove marker from text
             
-            # Extract cross-reference markers
-            xref_markers = elem.find_all('a', class_=['xref', 'b', 'crossRef'])
-            cross_refs = [marker.get('data-xref', marker.get('href', '')) 
-                         for marker in xref_markers]
+            # Get clean text
+            text = elem_copy.get_text(strip=True)
             
             if verse_number is not None or text:
                 return {
                     "number": verse_number,
                     "text": text,
-                    "footnotes": [f for f in footnotes if f],
-                    "cross_references": [x for x in cross_refs if x]
+                    "footnotes": footnotes,
+                    "cross_references": cross_refs
                 }
             
         except Exception as e:
-            logger.error(f"Error parsing verse: {e}")
+            logger.error(f"Error parsing verse element: {e}")
         
         return None
     
     def _extract_study_notes(self, soup: BeautifulSoup) -> List[Dict[str, Any]]:
-        """Extract study notes from the page."""
+        """Extract study notes from the tabbed sidebar."""
         notes = []
         
-        # Try multiple selectors
-        note_selectors = [
-            'div.studyNote',
-            '.study-note',
-            '.sn',
-            'div[data-type="study-note"]'
-        ]
+        # Use live-verified selector for study notes section in sidebar
+        notes_section = soup.select_one(SELECTORS['study_note_section'])
         
-        note_elements = []
-        for selector in note_selectors:
-            note_elements = soup.select(selector)
-            if note_elements:
-                break
-        
-        for elem in note_elements:
-            note_data = self._parse_study_note_element(elem)
-            if note_data:
-                notes.append(note_data)
+        if notes_section:
+            # Find all study note list items
+            note_items = notes_section.find_all('li')
+            
+            for item in note_items:
+                try:
+                    note_id = item.get('id', '')
+                    
+                    # Extract verse reference (e.g., "83:1")
+                    ref_elem = item.find('a', class_='b')
+                    reference = ref_elem.get_text(strip=True) if ref_elem else ''
+                    
+                    # Get full note content
+                    content = item.get_text(strip=True)
+                    
+                    if content:
+                        notes.append({
+                            "id": note_id,
+                            "reference": reference,
+                            "content": content
+                        })
+                except Exception as e:
+                    logger.error(f"Error parsing study note: {e}")
         
         return notes
     
@@ -302,67 +353,100 @@ class Psalms83Scraper:
         return None
     
     def _extract_footnotes(self, soup: BeautifulSoup) -> List[Dict[str, Any]]:
-        """Extract footnotes from the page."""
+        """Extract footnotes from the tabbed sidebar."""
         footnotes = []
         
-        footnote_selectors = [
-            'div.footnote',
-            '.fn-content',
-            'div[data-type="footnote"]'
-        ]
+        # Use live-verified selector for footnotes section in sidebar
+        footnote_section = soup.select_one(SELECTORS['footnote_section'])
         
-        footnote_elements = []
-        for selector in footnote_selectors:
-            footnote_elements = soup.select(selector)
-            if footnote_elements:
-                break
-        
-        for elem in footnote_elements:
-            try:
-                footnote_id = elem.get('id', '')
-                content = elem.get_text(strip=True)
-                
-                if content:
-                    footnotes.append({
-                        "id": footnote_id,
-                        "content": content
-                    })
-            except Exception as e:
-                logger.error(f"Error parsing footnote: {e}")
+        if footnote_section:
+            # Find all footnote list items
+            footnote_items = footnote_section.find_all('li')
+            
+            for item in footnote_items:
+                try:
+                    footnote_id = item.get('id', '')
+                    
+                    # Extract footnote marker/reference (e.g., "a" or "b")
+                    marker_elem = item.find('a', class_='fn')
+                    marker = marker_elem.get_text(strip=True) if marker_elem else ''
+                    
+                    # Get full content
+                    content = item.get_text(strip=True)
+                    
+                    if content:
+                        footnotes.append({
+                            "id": footnote_id,
+                            "marker": marker,
+                            "content": content
+                        })
+                except Exception as e:
+                    logger.error(f"Error parsing footnote: {e}")
         
         return footnotes
     
     def _extract_cross_references(self, soup: BeautifulSoup) -> List[Dict[str, Any]]:
-        """Extract cross-references from the page."""
+        """
+        Extract cross-references from the tabbed sidebar including full verse text.
+        
+        Cross-references are stored in div.xRef containers with collapsed sections
+        (div.jsCollapsableBlock) that contain the actual verse text in div.xRefVerse elements.
+        """
         cross_refs = []
         
-        xref_selectors = [
-            'div.crossReference',
-            '.xref-content',
-            'div[data-type="cross-reference"]'
-        ]
+        # Find all cross-reference containers (not using section selector)
+        xref_containers = soup.find_all('div', class_='xRef')
         
-        xref_elements = []
-        for selector in xref_selectors:
-            xref_elements = soup.select(selector)
-            if xref_elements:
-                break
-        
-        for elem in xref_elements:
+        for container in xref_containers:
             try:
-                xref_id = elem.get('id', '')
+                xref_data = {
+                    'id': container.get('data-id', ''),
+                    'verse_id': container.get('data-vs-id', ''),
+                    'marker': '',
+                    'citation': '',
+                    'verses': []
+                }
                 
-                # Extract verse links
-                verse_links = elem.find_all('a')
-                verses = [link.get_text(strip=True) for link in verse_links]
+                # Get marker and citation from the header
+                marker_elem = container.find('span', class_='xRefID')
+                if marker_elem:
+                    xref_data['marker'] = marker_elem.get_text(strip=True)
                 
-                if verses:
-                    cross_refs.append({
-                        "id": xref_id,
-                        "verses": verses
-                    })
+                citation_elem = container.find('span', class_='targetCitation')
+                if citation_elem:
+                    xref_data['citation'] = citation_elem.get_text(strip=True)
+                
+                # Get verse content from the collapsible block
+                collapsible = container.find('div', class_='jsCollapsableBlock')
+                if collapsible:
+                    verse_elements = collapsible.find_all('div', class_='xRefVerse')
+                    
+                    for verse_elem in verse_elements:
+                        # Extract citation (e.g., "Exodus 1:8-10")
+                        citation = verse_elem.find('span', class_='xRefCitation')
+                        
+                        # Extract category (e.g., "General")
+                        category = verse_elem.find('span', class_='xRefCategory')
+                        
+                        # Extract the actual verse text
+                        content = verse_elem.find('p', class_='xRefContent')
+                        
+                        verse_data = {
+                            'citation': citation.get_text(strip=True) if citation else '',
+                            'category': category.get_text(strip=True) if category else '',
+                            'content': content.get_text(strip=True) if content else ''
+                        }
+                        
+                        # Only add if has content
+                        if verse_data['citation'] or verse_data['content']:
+                            xref_data['verses'].append(verse_data)
+                
+                # Only add cross-reference if it has a marker
+                if xref_data['marker']:
+                    cross_refs.append(xref_data)
+                    
             except Exception as e:
-                logger.error(f"Error parsing cross-reference: {e}")
+                logger.error(f"Error parsing cross-reference container: {e}")
         
         return cross_refs
     
