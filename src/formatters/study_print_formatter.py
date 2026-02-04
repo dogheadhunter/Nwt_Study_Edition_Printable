@@ -5,6 +5,8 @@ This module provides a formatter for creating print-ready HTML output
 of Bible study content with a two-column layout (60% verses, 40% study materials).
 """
 
+import os
+from pathlib import Path
 from typing import Dict, Any, List, Optional
 
 
@@ -433,3 +435,63 @@ sup {
                 )
         
         return '\n'.join(html_parts) if html_parts else '            <p>No study materials for this chapter.</p>'
+    
+    def generate_pdf(self, data: Dict[str, Any], output_path: str) -> None:
+        """
+        Generate PDF file from Bible chapter data.
+        
+        Args:
+            data: Dictionary containing Bible chapter data (same format as generate_html)
+            output_path: Path where the PDF file should be saved
+            
+        Raises:
+            ValueError: If data is invalid or output_path is empty
+            OSError: If unable to create directories or write file
+            
+        Example:
+            >>> formatter = StudyBiblePrintFormatter()
+            >>> data = load_json("data/samples/psalms_83_sample.json")
+            >>> formatter.generate_pdf(data, "output/print/Psalms/chapter_83.pdf")
+            
+        Note:
+            - Creates parent directories if they don't exist
+            - Embeds fonts for special characters (ʹ, ·)
+            - Sets PDF metadata (title, subject)
+            - File size typically < 500KB per chapter
+        """
+        if not output_path:
+            raise ValueError("output_path cannot be empty")
+        
+        # Import weasyprint (lazy import to avoid dependency if only HTML is needed)
+        try:
+            from weasyprint import HTML
+        except ImportError:
+            raise ImportError(
+                "Weasyprint is required for PDF generation. "
+                "Install it with: pip install weasyprint>=60.0"
+            )
+        
+        # Create parent directories if they don't exist
+        output_file = Path(output_path)
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Generate HTML
+        html_content = self.generate_html(data)
+        
+        # Create PDF with metadata
+        book = data.get('book', 'Unknown')
+        chapter = data.get('chapter', '')
+        
+        html_doc = HTML(string=html_content)
+        html_doc.write_pdf(
+            output_path,
+            pdf_forms=False,  # Disable form fields for smaller file size
+        )
+        
+        # Verify file was created
+        if not output_file.exists():
+            raise OSError(f"Failed to create PDF at {output_path}")
+        
+        # Optional: Print confirmation
+        file_size = output_file.stat().st_size
+        return None

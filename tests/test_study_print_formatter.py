@@ -7,6 +7,7 @@ print-ready HTML output from Bible study data.
 
 import pytest
 import json
+import os
 from pathlib import Path
 from src.formatters.study_print_formatter import StudyBiblePrintFormatter
 
@@ -234,3 +235,77 @@ class TestStudyBiblePrintFormatter:
         assert '<footer class="page-footer">' in html
         assert '</body>' in html
         assert '</html>' in html
+
+    @pytest.mark.unit
+    def test_generate_pdf_minimal_data(self, tmp_path):
+        """Test PDF generation with minimal data."""
+        formatter = StudyBiblePrintFormatter()
+        data = {
+            'book': 'Test',
+            'chapter': 1,
+            'verses': [{'number': 1, 'text': 'Test verse'}]
+        }
+        
+        output_path = tmp_path / "test.pdf"
+        formatter.generate_pdf(data, str(output_path))
+        
+        assert output_path.exists()
+        assert output_path.stat().st_size > 0
+    
+    @pytest.mark.unit
+    def test_generate_pdf_creates_directories(self, tmp_path):
+        """Test that generate_pdf creates parent directories."""
+        formatter = StudyBiblePrintFormatter()
+        data = {
+            'book': 'Test',
+            'chapter': 1,
+            'verses': []
+        }
+        
+        # Use nested path that doesn't exist
+        output_path = tmp_path / "subdir" / "another" / "test.pdf"
+        formatter.generate_pdf(data, str(output_path))
+        
+        assert output_path.exists()
+        assert output_path.parent.exists()
+    
+    @pytest.mark.unit
+    def test_generate_pdf_empty_path_raises_error(self):
+        """Test that empty output path raises ValueError."""
+        formatter = StudyBiblePrintFormatter()
+        data = {
+            'book': 'Test',
+            'chapter': 1,
+            'verses': []
+        }
+        
+        with pytest.raises(ValueError, match="output_path"):
+            formatter.generate_pdf(data, "")
+    
+    @pytest.mark.unit
+    def test_generate_pdf_file_size(self, tmp_path, psalms_83_sample):
+        """Test that generated PDF is within size limits."""
+        formatter = StudyBiblePrintFormatter()
+        output_path = tmp_path / "psalms_83.pdf"
+        
+        formatter.generate_pdf(psalms_83_sample, str(output_path))
+        
+        file_size = output_path.stat().st_size
+        # Should be less than 500KB (target from plan)
+        assert file_size < 500_000, f"PDF size {file_size} exceeds 500KB limit"
+        # Should be at least 1KB (reasonable minimum)
+        assert file_size > 1000, f"PDF size {file_size} seems too small"
+    
+    @pytest.mark.unit
+    def test_generate_pdf_with_psalms_83(self, tmp_path, psalms_83_sample):
+        """Test PDF generation with complete Psalms 83 data."""
+        formatter = StudyBiblePrintFormatter()
+        output_path = tmp_path / "psalms_83_test.pdf"
+        
+        formatter.generate_pdf(psalms_83_sample, str(output_path))
+        
+        assert output_path.exists()
+        # Verify it's a PDF by checking magic bytes
+        with open(output_path, 'rb') as f:
+            header = f.read(5)
+            assert header == b'%PDF-', "File is not a valid PDF"
