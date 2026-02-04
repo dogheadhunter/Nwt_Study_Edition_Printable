@@ -14,13 +14,58 @@ Usage:
 import argparse
 import json
 import sys
+import re
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Set
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.formatters.study_print_formatter import StudyBiblePrintFormatter
+
+
+def discover_chapters(book: str) -> Set[int]:
+    """
+    Discover available chapter data files for a given book.
+    
+    Args:
+        book: Book name (e.g., "Psalms")
+        
+    Returns:
+        Set of chapter numbers that have data files available
+        
+    Note:
+        Searches in:
+        - data/samples/{book_lower}_{chapter}_sample.json
+        - data/processed/{book}/chapter_{num}.json
+    """
+    chapters = set()
+    base_dir = Path(__file__).parent.parent
+    book_lower = book.lower()
+    
+    # Search in data/samples/
+    samples_dir = base_dir / "data" / "samples"
+    if samples_dir.exists():
+        # Pattern: psalms_83_sample.json
+        pattern = re.compile(rf'^{re.escape(book_lower)}_(\d+)_sample\.json$')
+        for file in samples_dir.iterdir():
+            if file.is_file():
+                match = pattern.match(file.name)
+                if match:
+                    chapters.add(int(match.group(1)))
+    
+    # Search in data/processed/{book}/
+    processed_dir = base_dir / "data" / "processed" / book
+    if processed_dir.exists():
+        # Pattern: chapter_1.json
+        pattern = re.compile(r'^chapter_(\d+)\.json$')
+        for file in processed_dir.iterdir():
+            if file.is_file():
+                match = pattern.match(file.name)
+                if match:
+                    chapters.add(int(match.group(1)))
+    
+    return chapters
 
 
 def load_chapter_data(book: str, chapter: int, data_dir: Path = None) -> Dict[str, Any]:
@@ -210,16 +255,75 @@ Examples:
     else:
         print(f"Processing all chapters for {args.book}...")
         
-        # For now, since we don't have a way to list all chapters,
-        # we'll provide a helpful message
-        print("\nNote: --all-chapters functionality requires chapter data files.")
-        print(f"Please ensure chapter JSON files exist in:")
-        print(f"  - data/samples/{args.book.lower()}_{{chapter}}_sample.json")
-        print(f"  - OR data/processed/{args.book}/chapter_{{num}}.json")
-        print("\nTo process a specific chapter, use --chapter instead:")
-        print(f"  python scripts/generate_print.py --book {args.book} --chapter 1 --format {args.format}")
+        # Discover available chapter files
+        chapters = discover_chapters(args.book)
         
-        return 1
+        if not chapters:
+            print(f"\n✗ No chapter data files found for {args.book}")
+            print(f"Looked in:")
+            print(f"  - data/samples/{args.book.lower()}_{{chapter}}_sample.json")
+            print(f"  - data/processed/{args.book}/chapter_{{num}}.json")
+            print(f"\nPlease scrape chapters first or check file locations.")
+            return 1
+        
+        print(f"Found {len(chapters)} chapter(s): {', '.join(map(str, sorted(chapters)))}")
+        print()
+        
+        # Process each chapter
+        results = []
+        success_count = 0
+        error_count = 0
+        
+        for i, chapter in enumerate(sorted(chapters), 1):
+            print(f"[{i}/{len(chapters)}] Processing {args.book} {chapter}...", end=' ')
+            
+            result = generate_chapter(
+                args.book,
+                chapter,
+                args.format,
+                args.output_dir,
+                formatter
+            )
+            
+            results.append(result)
+            
+            if result['success']:
+                print("✓")
+                success_count += 1
+            else:
+                print(f"✗ {result['error']}")
+                error_count += 1
+        
+        # Print summary
+        print()
+        print("=" * 60)
+        print(f"Batch Processing Summary for {args.book}")
+        print("=" * 60)
+        print(f"Total chapters: {len(chapters)}")
+        print(f"Successful: {success_count}")
+        print(f"Failed: {error_count}")
+        
+        if success_count > 0:
+            print(f"\nGenerated files in: {args.output_dir / args.book}")
+            
+            # List all generated files
+            all_files = []
+            for result in results:
+                if result['success']:
+                    all_files.extend(result['files'])
+            
+            if all_files:
+                print(f"Total files generated: {len(all_files)}")
+        
+        if error_count > 0:
+            print(f"\n⚠ {error_count} chapter(s) failed to process")
+            print("Failed chapters:")
+            for result in results:
+                if not result['success']:
+                    print(f"  - {result['book']} {result['chapter']}: {result['error']}")
+        
+        # Return 0 if at least some chapters succeeded
+        return 0 if success_count > 0 else 1
 
 
 if __name__ == '__main__':

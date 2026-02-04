@@ -135,6 +135,18 @@ python scripts/generate_print.py --book Psalms --chapter 83 --format both
 python scripts/generate_print.py --book Genesis --chapter 1 --format html
 ```
 
+**Batch process all available chapters:**
+```bash
+python scripts/generate_print.py --book Psalms --all-chapters --format pdf
+```
+
+This will:
+- Discover all available chapter files for the book
+- Process each chapter in order
+- Show progress: `[1/150] Processing Psalms 1... ✓`
+- Generate a summary report with success/failure counts
+- Continue processing even if some chapters fail
+
 **Custom output directory:**
 ```bash
 python scripts/generate_print.py --book Psalms --chapter 83 \
