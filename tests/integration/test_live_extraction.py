@@ -6,10 +6,11 @@ import json
 import sys
 from pathlib import Path
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent / 'src'))
+# Add project root to path for imports
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
 
-from scrapers.psalms_scraper import Psalms83Scraper
+from src.scrapers.psalms_scraper import Psalms83Scraper
 
 # Simple validator functions
 def validate_chapter_completeness(data):
@@ -66,7 +67,7 @@ def main():
     """Test Psalms 83 extraction with live HTML."""
     
     # Read the HTML file that was saved from Playwright
-    html_file = Path(__file__).parent / 'data' / 'samples' / 'psalms_83_live.html'
+    html_file = project_root / 'data' / 'samples' / 'psalms_83_live.html'
     
     if not html_file.exists():
         print(f"❌ HTML file not found: {html_file}")
@@ -168,7 +169,7 @@ def main():
     print(f"✅ Superscription: {'Yes' if data.get('superscription') else 'No'}")
     
     # Save results
-    output_file = Path(__file__).parent / 'data' / 'processed' / 'psalms_83_live_test.json'
+    output_file = project_root / 'data' / 'processed' / 'psalms_83_live_test.json'
     output_file.parent.mkdir(parents=True, exist_ok=True)
     
     with open(output_file, 'w', encoding='utf-8') as f:

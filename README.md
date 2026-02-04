@@ -15,26 +15,46 @@ This project provides tools and documentation to:
 ```
 Nwt_Study_Edition_Printable/
 ├── docs/                           # Documentation
+│   ├── README.md                   # Documentation index
+│   ├── GETTING_STARTED.md          # Step-by-step setup guide
+│   ├── PLAYWRIGHT_USAGE.md         # Playwright MCP usage guide
 │   ├── WEBPAGE_STRUCTURE.md        # Analysis of JW.org webpage structure
 │   ├── API_DOCUMENTATION.md        # Data models and API patterns
-│   ├── PLAYWRIGHT_USAGE.md         # Playwright MCP usage guide
-│   └── GETTING_STARTED.md          # Step-by-step setup guide
+│   ├── SIDEBAR_ANALYSIS.md         # Study materials sidebar analysis
+│   ├── PROJECT_SUMMARY.md          # Project summary and status
+│   ├── INTEGRATION_TEST_SUMMARY.md # Integration testing results
+│   └── LIVE_SCRAPING_RESULTS.md    # Live scraping session results
 ├── src/                            # Source code
 │   ├── scrapers/                   # Web scraping modules
 │   │   ├── playwright_scraper.py   # Playwright-based scraper (recommended)
+│   │   ├── psalms_scraper.py       # Psalms-specific scraper
 │   │   └── bible_scraper.py        # Legacy Selenium scraper
 │   ├── parsers/                    # HTML parsing utilities
 │   │   └── html_parser.py          # Parse and extract structured data
 │   ├── utils/                      # Utility functions
-│   │   └── storage.py              # Data storage utilities
+│   │   ├── storage.py              # Data storage utilities
+│   │   └── validators.py           # Data validation utilities
 │   └── config.py                   # Configuration and selectors
 ├── tests/                          # Test suite
-│   ├── __init__.py
-│   └── test_playwright_scraper.py  # Playwright scraper tests
+│   ├── integration/                # Integration tests
+│   │   ├── test_psalms_83_live.py  # Live Psalms 83 tests
+│   │   └── README.md               # Integration test guide
+│   ├── test_playwright_scraper.py  # Playwright scraper tests
+│   └── test_psalms_scraper.py      # Psalms scraper tests
 ├── examples/                       # Example scripts
 │   ├── playwright_mcp_guide.py     # Playwright MCP usage examples
+│   ├── integration_example.py      # Complete integration examples
+│   ├── demo_live_cross_refs.py     # Cross-reference extraction demo
 │   └── analyze_structure.py        # Webpage structure analysis
+├── scripts/                        # Utility scripts
+│   ├── live_test_psalms_83.py      # Live testing script
+│   ├── analyze_live_html.py        # HTML structure analyzer
+│   └── save_html.py                # Save HTML from browser
+├── data/                           # Data directory
+│   └── samples/                    # Sample data for testing
 ├── requirements.txt                # Python dependencies
+├── pytest.ini                      # Pytest configuration
+├── FORMATTING_PLAN.md              # Print formatting plan
 └── README.md                       # This file
 ```
 
