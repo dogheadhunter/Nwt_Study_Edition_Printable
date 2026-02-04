@@ -38,10 +38,10 @@ venv.bak/
 # Data files
 data/raw/
 data/processed/
-*.json
 *.xml
-*.html
-!examples/*.html
+# Keep sample data for tests
+!data/samples/
+!data/samples/*.json
 
 # Logs
 *.log
