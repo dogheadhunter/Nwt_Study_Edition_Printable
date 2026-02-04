@@ -1,0 +1,176 @@
+{
+  "book": "Psalms",
+  "chapter": 83,
+  "url": "https://www.jw.org/en/library/bible/study-bible/books/psalms/83/",
+  "superscription": "A song. A melody of Asaph.",
+  "verses": [
+    {
+      "number": 1,
+      "text": "O God, do not remain silent. Do not be deaf and do not stand still, O God.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 2,
+      "text": "For look! your enemies are in an uproar; Those who hate you act arrogantly.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 3,
+      "text": "With cunning they secretly plot against your people; They conspire against your treasured ones.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 4,
+      "text": "They say: 'Come, let us annihilate them as a nation, So that the name of Israel may be remembered no more.'",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 5,
+      "text": "They have united in their scheme; They have made an alliance against you:",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 6,
+      "text": "The tents of Edom and the Ishmaelites, Moab and the Hagrites,",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 7,
+      "text": "Gebal and Ammon and Amalek, Philistia together with the inhabitants of Tyre.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 8,
+      "text": "Assyria too has joined them; They have supported the sons of Lot. (Selah)",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 9,
+      "text": "Do to them as you did to Midian, As you did to Sisera and Jabin at the stream of Kishon.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 10,
+      "text": "They were annihilated at En-dor; They became manure for the ground.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 11,
+      "text": "Make their nobles like Oreb and Zeeb And all their princes like Zebah and Zalmunna,",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 12,
+      "text": "Who said: 'Let us take possession of the pastures of God.'",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 13,
+      "text": "O my God, make them like a whirling thistle, Like straw before the wind.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 14,
+      "text": "Like a fire that burns up the forest And like a flame that scorches the mountains,",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 15,
+      "text": "So may you pursue them with your tempest And terrify them with your storm.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 16,
+      "text": "Cover their faces with dishonor, So that they may search for your name, O Jehovah.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 17,
+      "text": "May they be put to shame and be terrified forever; May they be disgraced and perish.",
+      "footnotes": [],
+      "cross_references": []
+    },
+    {
+      "number": 18,
+      "text": "May people know that you, whose name is Jehovah, You alone are the Most High over all the earth.",
+      "footnotes": [],
+      "cross_references": []
+    }
+  ],
+  "study_notes": [
+    {
+      "id": "note_83_superscription",
+      "reference": "superscription",
+      "content": "A melody of Asaph: This expression occurs in the superscriptions of Psalms 50 and 73-83. Asaph was a Levite appointed by David to serve before the Ark and to 'call to remembrance, thank, and praise Jehovah the God of Israel.'"
+    },
+    {
+      "id": "note_83_3",
+      "reference": "83:3",
+      "content": "your treasured ones: Or 'those you carefully guard; those you keep hidden.' This Hebrew term refers to things or people that are precious and carefully protected."
+    },
+    {
+      "id": "note_83_8",
+      "reference": "83:8",
+      "content": "the sons of Lot: Refers to Moab and Ammon, the nations that descended from Lot's two sons born to him by his daughters."
+    },
+    {
+      "id": "note_83_16",
+      "reference": "83:16",
+      "content": "Jehovah: This is one of the places where God's personal name appears in the book of Psalms. The divine name appears in the superscription or body of 74 of the 150 psalms."
+    },
+    {
+      "id": "note_83_18",
+      "reference": "83:18",
+      "content": "whose name is Jehovah: This verse explicitly identifies the Most High God by his personal name. The divine name, represented by four Hebrew consonants (YHWH), occurs over 6,800 times in the Hebrew Scriptures."
+    }
+  ],
+  "footnotes": [
+    {
+      "id": "fn_83_8",
+      "reference": "83:8",
+      "content": "Selah: A technical term of uncertain meaning, possibly indicating a pause for silent meditation or a musical interlude."
+    }
+  ],
+  "cross_references": [
+    {
+      "id": "xref_83_6",
+      "reference": "83:6-8",
+      "verses": ["Genesis 19:36-38", "Genesis 25:12-18", "Judges 3:3"]
+    },
+    {
+      "id": "xref_83_9",
+      "reference": "83:9-12",
+      "verses": ["Judges 4:15-24", "Judges 7:25", "Judges 8:21"]
+    },
+    {
+      "id": "xref_83_18",
+      "reference": "83:18",
+      "verses": ["Exodus 6:3", "Isaiah 42:8", "Psalm 91:14"]
+    }
+  ],
+  "metadata": {
+    "total_verses": 18,
+    "has_superscription": true,
+    "has_selah": true,
+    "theme": "A prayer for God to act against the enemies of His people",
+    "author": "Asaph",
+    "scraped_at": null,
+    "note": "Sample data - actual scraping blocked by site"
+  }
+}
