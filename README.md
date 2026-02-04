@@ -29,6 +29,8 @@ Nwt_Study_Edition_Printable/
 │   │   ├── playwright_scraper.py   # Playwright-based scraper (recommended)
 │   │   ├── psalms_scraper.py       # Psalms-specific scraper
 │   │   └── bible_scraper.py        # Legacy Selenium scraper
+│   ├── formatters/                 # Print formatters (NEW!)
+│   │   └── study_print_formatter.py # PDF/HTML generator for printing
 │   ├── parsers/                    # HTML parsing utilities
 │   │   └── html_parser.py          # Parse and extract structured data
 │   ├── utils/                      # Utility functions
@@ -47,11 +49,15 @@ Nwt_Study_Edition_Printable/
 │   ├── demo_live_cross_refs.py     # Cross-reference extraction demo
 │   └── analyze_structure.py        # Webpage structure analysis
 ├── scripts/                        # Utility scripts
+│   ├── generate_print.py           # Generate PDFs/HTML (NEW!)
 │   ├── live_test_psalms_83.py      # Live testing script
 │   ├── analyze_live_html.py        # HTML structure analyzer
 │   └── save_html.py                # Save HTML from browser
 ├── data/                           # Data directory
 │   └── samples/                    # Sample data for testing
+├── output/                         # Generated output (NEW!)
+│   └── print/                      # Printable PDFs and HTML
+│       └── Psalms/                 # Organized by book
 ├── requirements.txt                # Python dependencies
 ├── pytest.ini                      # Pytest configuration
 ├── FORMATTING_PLAN.md              # Print formatting plan
@@ -80,6 +86,13 @@ Nwt_Study_Edition_Printable/
 - **CSV Export**: Tabular format for verses
 - **Organized Structure**: Separate files for books and chapters
 
+### Print Formatting (NEW!)
+- **PDF Generation**: Create printable A4 PDFs with two-column layout
+- **HTML Output**: Generate print-ready HTML files
+- **Website-Style Layout**: 60% verses (left) + 40% study materials (right)
+- **Professional Typography**: Optimized for reading and printing
+- **Batch Processing**: Generate PDFs for multiple chapters at once
+
 ## Installation
 
 ### Prerequisites
@@ -107,6 +120,33 @@ pip install -r requirements.txt
 ```
 
 ## Usage
+
+### Generating Print-Ready PDFs (NEW!)
+
+Generate professional PDFs from scraped Bible data:
+
+```bash
+# Generate PDF for a single chapter
+python scripts/generate_print.py --book Psalms --chapter 83 --format pdf
+
+# Generate both HTML and PDF
+python scripts/generate_print.py --book Psalms --chapter 83 --format both
+
+# View help
+python scripts/generate_print.py --help
+```
+
+**Features:**
+- A4-sized PDFs with two-column layout (60% verses, 40% study materials)
+- Professional typography optimized for printing
+- Automatic file organization: `output/print/{book}/chapter_{num}.pdf`
+- Small file sizes (15-30 KB per chapter)
+
+See [docs/PRINTING.md](docs/PRINTING.md) for complete guide including:
+- Installation instructions
+- Customization options
+- Troubleshooting
+- Python API usage
 
 ### Using Playwright MCP (Recommended)
 
@@ -180,6 +220,14 @@ print(f"Study Notes: {len(data['study_notes'])}")
 
 ## Documentation
 
+### Printing Guide (NEW!)
+See [docs/PRINTING.md](docs/PRINTING.md) for:
+- Quick start guide for PDF generation
+- Installation and system requirements
+- Command-line and Python API usage
+- Customization options (fonts, colors, page size)
+- Troubleshooting common issues
+
 ### Playwright Usage Guide (Start Here!)
 See [docs/PLAYWRIGHT_USAGE.md](docs/PLAYWRIGHT_USAGE.md) for:
 - Complete guide to Playwright MCP tools
@@ -250,11 +298,12 @@ Contributions are welcome! Please:
 - [x] Create Playwright-based scraper
 - [x] Add comprehensive testing infrastructure
 - [x] Document Playwright MCP usage
+- [x] Implement print formatter with PDF generation
+- [x] Create CLI tool for generating PDFs
 - [ ] Verify HTML selectors with actual webpage (site blocks automation)
 - [ ] Implement retry logic for failed requests
 - [ ] Add progress tracking for bulk scraping
 - [ ] Create database schema implementation
-- [ ] Add export to different formats (PDF, EPUB)
 - [ ] Implement caching layer
 
 ## Technical Stack
@@ -265,6 +314,7 @@ Contributions are welcome! Please:
 - **BeautifulSoup4**: HTML parsing
 - **lxml**: Fast XML/HTML processing
 - **Requests**: HTTP library (for static content)
+- **Weasyprint**: PDF generation from HTML
 - **pytest**: Testing framework
 
 ## License
